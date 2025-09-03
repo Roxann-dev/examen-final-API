@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: STD24032
+  description: This is a specification of STD24032
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8000'
+paths:
+  /ping:
+    get:
+      responses:
+        "200":
+          description: Retourne pong
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: pong
+  /cars:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Car"
+      responses:
+        "200":
+          description: Retourne une nouvelle liste avec les voitures ajoutées
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Car"
+    get:
+      responses:
+        "200":
+          description: Retourne la liste de toutes les voitures
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Car"
+  /cars/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            example: "1"
+          required: true
+      responses:
+        "200":
+          description: Retourne la voiture à partir de son id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Car"
+        "404":
+          description: Retourne un message d'erreur si l'id n'est pas retrouvé
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "ID not found or doesn't exist"
+
+components:
+  schemas:
+    Car:
+      type: object
+      properties:
+        identifier:
+          type: string
+          example: "1"
+        brand:
+          type: string
+          example: "toyota"
+        model:
+          type: string
+          example: "Citroen"
+        characteristics:
+          type: object
+          properties:
+            max_speed:
+              type: integer
+              example: 150
+            max_fuel_capacity:
+              type: integer
+              example: 5
+
+  
